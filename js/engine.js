@@ -1,23 +1,7 @@
-/* Engine.js
- * This file provides the game loop functionality (update entities and render),
- * draws the initial game board on the screen, and then calls the update and
- * render methods on your player and enemy objects (defined in your app.js).
- *
- * A game engine works by drawing the entire game screen over and over, kind of
- * like a flipbook you may have created as a kid. When your player moves across
- * the screen, it may look like just that image/character is moving or being
- * drawn but that is not the case. What's really happening is the entire "scene"
- * is being drawn over and over, presenting the illusion of animation.
- *
- * This engine is available globally via the Engine variable and it also makes
- * the canvas' context (ctx) object globally available to make writing app.js
- * a little simpler to work with.
- */
+/* Engine.js */
 
-//TODO: *bug after third consective continue.
-//Left side collision doesn't work.
-
-
+ //restartMSG calls the sweetAlert library to create a beautiful
+ //alertbox UI
 function restartMSG(title, msg) {
     swal({
             title: title,
@@ -35,21 +19,27 @@ function restartMSG(title, msg) {
             newGame();
         });
 }
-
+//global flags to reset timer
 var firstRun = true;
 var timerStarted = false;
 
+//Starts the game
 function newGame() {
-    clearInterval(window.timer)
+    //clears the interval first time around just to be sure:
+    clearInterval(window.timer);
+    //clears the area on the canvas where the timer appears:
     ctx.clearRect(200, 0, 505, 40);
-    player.resetPos();
+    player.resetPos(); //defined in app.js
     startTimer();
 }
 
 function endGame() {
+    // ends the timer
     clearInterval(window.timer);
-    ctx.clearRect(200, 0, 505, 40); // clears drawn text.
+    // clears drawn text.
+    ctx.clearRect(200, 0, 505, 40);
     player.resetPos();
+    //sets the global flag back to false
     timerStarted = false;
 }
 
@@ -61,14 +51,17 @@ function startTimer() {
     window.timer = setInterval(function() {
         counter--;
         if (counter < 0) {
+            // clears drawn text.
             ctx.clearRect(200, 0, 505, 40);
-            player.resetPos(); // clears drawn text.
+            //resets the player position
+            player.resetPos();
+            //sets flag back to false
             timerStarted = false;
-            restartMSG("Time's Up!", "Start a New Game?")
-
+            //creates a UI box
+            restartMSG("Time's Up!", "Start a New Game?");
 
         } else {
-            console.log(counter)
+            //console.log(counter) //debug purposes
             ctx.fillText(counter, 250, 40); //draws text on screen.
             ctx.clearRect(200, 0, 505, 40); // clears drawn text.
             ctx.fillText(counter, 250, 40); //draws it again.
@@ -76,7 +69,7 @@ function startTimer() {
     }, 1000);
 }
 
-
+/*ENGINE CODE (untouched) */
 var Engine = (function(global) {
     /* Predefine the variables we'll be using within this scope,
      * create the canvas element, grab the 2D context for that canvas
@@ -95,7 +88,6 @@ var Engine = (function(global) {
 
     ctx.font = 'normal bold 50px sans-serif';
     ctx.textAlign = "center";
-
 
 
     /* This function serves as the kickoff point for the game loop itself

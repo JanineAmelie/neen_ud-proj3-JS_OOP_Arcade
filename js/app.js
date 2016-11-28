@@ -1,8 +1,7 @@
 // Enemies our player must avoid
 var Enemy = function(howfast, rownum) {
-
     this.x = (4 * 101);
-
+    //Switch to handle which row the enemy should spawn.
     switch (rownum) {
         case 1:
             this.y = 60;
@@ -18,23 +17,6 @@ var Enemy = function(howfast, rownum) {
     this.speed = howfast;
 };
 
-//
-Enemy.prototype.Yrow = function(yvaluenum) {
-    var currentRow;
-
-    if (yvaluenum > 60 && yvaluenum < 140) {
-        currentRow = 1;
-        return currentRow;
-
-    } else if (yvaluenum > 140 && yvaluenum < 220) {
-        currentRow = 2;
-        return currentRow;
-
-    } else if (yvaluenum > 220 && yvaluenum < 310) {
-        currentRow = 3;
-        return currentRow;
-    }
-}
 
 // Parameter: dt, a time delta between ticks
 Enemy.prototype.update = function(dt) {
@@ -43,21 +25,23 @@ Enemy.prototype.update = function(dt) {
     var stepSize = (this.speed * dt);
     this.x = (this.x + stepSize) % 505;
 
+    //the following ends the game
     if (this.collision() == true) {
-        //endGame();
+        endGame(); //defined in engine.js
         player.resetPos();
-        console.log("collision")
-            //restartMSG("Oop! Enemy collision! Game Over", "Start a new game?")
-
+        //console.log("collision")//debug for collision detection
+        //restartMSG defined in engine.js is a function that creates UI
+        restartMSG("Oop! Enemy collision! Game Over", "Start a new game?")
     }
-
 };
 
 Enemy.prototype.collision = function() {
     //ei --> enemyIndex
+    //by default collided is set to false nothing is colliding yet.
     var collided = false;
-    for (var ei = 0; ei < allEnemies.length; ei++) {
 
+    //Constantly loops through all the enemies to the check for collisions
+    for (var ei = 0; ei < allEnemies.length; ei++) {
         var enem = allEnemies[ei];
 
 //We need to compute the actual bounding box
@@ -70,44 +54,52 @@ Enemy.prototype.collision = function() {
         var imageHeight = 171;
         var imageWidth = 101
 
-        /* Enemy bounding box computation */
-
         //enemy actual width = 101px same as imagewidth
         var enemyHeight = 65;
         var enemyBotSpace = 28;
 
+         /* Enemy bounding box computation */
         var x1 = enem.x;
         var x2 = enem.x + imageWidth;
         var y1 = enem.y + (imageHeight - (enemyHeight + enemyBotSpace));
         var y2 = enem.y + (imageHeight - enemyBotSpace);
 
-        /* Player bounding box computation*/
+        //Player Sprite Measurements based
+        //on the actual image
         var charHeight = 75;
         var charWidth = 66;
+        //charSideSpace is the whitespace transparency
+        //around the character in the image file
         var charSideSpace = 18;
         var charBotSpace = 32;
 
+        /* Actual Player bounding box computation
+        see my visual explanation image above*/
         var a1 = player.x + (imageWidth - (charWidth + charSideSpace));
         var a2 = player.x + (imageWidth - charSideSpace);
         var b1 = player.y + (imageHeight - (charHeight + charBotSpace));
         var b2 = player.y + (imageHeight - charBotSpace);
 
-        /*Checking for Collisions */
-        //X VALUES
-        if (x1 < a1 && x1 < a2 && x2 < a1 && x2 < a2) {
-            //collided = false;
-        } else if (x1 > a1 && x1 > a2 && x2 > a1 && x2 > a2) {
-            //collided = false;
+        //conditions where it doesn't collide
+        //see this image for my visual explanation of the ff code:
+        //https://www.dropbox.com/s/a3vziucds4wc9n6/4_perfect-collision-detection.jpg?raw=0
+        //basically there is no collision if the player's sprite's bounding box,
+        //does not overlap the enemy's bounding box.
+        var xCond1 = x1 < a1 && x1 < a2 && x2 < a1 && x2 < a2;
+        var xCond2 = x1 > a1 && x1 > a2 && x2 > a1 && x2 > a2;
+        var yCond1 = y1 < b1 && y1 < b2 && y2 < b1 && y2 < b2;
+        var yCond2 =  y1 > b1 && y1 > b2 && y2 > b1 && y2 > b2;
 
-            //Y Values
-        } else if (y1 < b1 && y1 < b2 && y2 < b1 && y2 < b2) {
-            //collided = false;
-        } else if (y1 > b1 && y1 > b2 && y2 > b1 && y2 > b2) {
-            //collided = false;
-
-            //Otherwise there is collision
-        } else {
+        //This if statement checks if any of the these conditions are met
+        //I want to end the function on the first detection of collision.
+        //needs to fail all of these 4 conditions for collided to be true.
+        if (!(xCond1 || xCond2 || yCond1 || yCond2) ) {
+            //There isn't a point to checking for the rest of the enemies
+            //if there is a single collision
+            //If it returns earlier it stops, it goes back
+            //repeats the loop and collided remains false.
             collided = true;
+            return collided;
         }
     }
     return collided;
@@ -118,6 +110,7 @@ Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
+//Player Class constructor
 var Player = function() {
     //starting coordinates
     this.x = 202;
@@ -130,23 +123,8 @@ var Player = function() {
     this.sprite = 'images/char-boy.png';
 };
 
-Player.prototype.Yrow = function(yvaluenum) {
-    var currentRow;
 
-    if (yvaluenum > 60 && yvaluenum < 140) {
-        currentRow = 1;
-        return currentRow;
-
-    } else if (yvaluenum > 140 && yvaluenum < 220) {
-        currentRow = 2;
-        return currentRow;
-
-    } else if (yvaluenum > 220 && yvaluenum < 310) {
-        currentRow = 3;
-        return currentRow;
-    }
-}
-
+//Used for debugging current position of the player
 Player.prototype.displayPos = function() {
     console.log("player x: " + player.x + " player y: " + player.y);
 };
@@ -158,6 +136,7 @@ Player.prototype.canMove = function(direction) {
     var upStep = this.y - this.stepY;
     var downStep = this.y + this.stepY;
 
+    //the numbers are the coordinates of the extreme most bounds
     switch (direction) {
         case 'left':
             if (leftStep < 2) {
@@ -188,6 +167,8 @@ Player.prototype.canMove = function(direction) {
     }
 };
 
+//move function that takes in a parameter direction from
+//Player.prototype.update method, only when canMove is true
 Player.prototype.move = function(direction) {
     switch (direction) {
         case 'left':
@@ -205,11 +186,15 @@ Player.prototype.move = function(direction) {
     }
 }
 
+//called by the handleInputfunction
 Player.prototype.update = function(direction) {
+    //checks if the player can move first
+    //i.e. the player is not out of bounds etc
+    //before the
     if (this.canMove(direction) === true) {
-        this.move(direction);
-        this.waterContact();
-        this.displayPos();
+        this.move(direction); //moves the player
+        this.waterContact(); //check if the player hit water (for end state)
+        //this.displayPos(); //debug function that logs coords.
     }
 };
 
@@ -218,11 +203,10 @@ Player.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
-
+//handles the input called from the keyup event listener
 Player.prototype.handleInput = function(keyinput) {
-    console.log(keyinput);
+    //console.log(keyinput); //for debugging
     this.update(keyinput);
-
 };
 
 //coordinates where the player should be placed when this method is called
@@ -231,10 +215,12 @@ Player.prototype.resetPos = function() {
     this.y = 390;
 }
 
-
+//function to determine if the player has hit water
 Player.prototype.waterContact = function() {
     var waterTiles = [2, 102, 202, 302, 402, 502];
 
+    //loops through the water tiles array
+    //checking if the position of the player is on the water tile
     for (var i = 0; i < waterTiles.length; i++) {
         if (this.x == waterTiles[i] && this.y == -10) {
             console.log("Stepped on water");
@@ -246,13 +232,13 @@ Player.prototype.waterContact = function() {
     };
 }
 
-
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
 var allEnemies = [];
 var player = new Player();
 
+//adding new enemy types to the allEnemies array
 allEnemies.push(new Enemy(200, 1), new Enemy(100, 2), new Enemy(150, 3))
 
 // This listens for key presses and sends the keys to your Player.handleInput() method.
@@ -264,7 +250,6 @@ document.addEventListener('keyup', function(e) {
             39: 'right',
             40: 'down'
         };
-
         player.handleInput(allowedKeys[e.keyCode]);
     }
 });
