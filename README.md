@@ -8,7 +8,7 @@ Classic Arcade Game Clone
 2. [Project Information](#project-information)
 3. [Implementing Sprite Collisions](#implementing-the-collision-of-the-sprites)
 7. [How to Run](#how-to-run)
-9. [View Live](https://janinelourens.github.io/neen_ud-proj3-JS-OOP-Arcade)
+9. [View Live](https://janinelourens.github.io/neen_ud-proj3-JS_OOP_Arcade/)
 
 ---
 
@@ -87,5 +87,5 @@ if (!(xCond1 || xCond2 || yCond1 || yCond2) ) {
 4. Double click the index.html file and open with your favorite browser. (Preferably Chrome :stuck_out_tongue: )
 
 #### **Testing Live:**
-1. View the site live here: https://janinelourens.github.io/neen_ud-proj3-JS-OOP-Arcade
+1. View the site live here: https://janinelourens.github.io/neen_ud-proj3-JS_OOP_Arcade/
 
