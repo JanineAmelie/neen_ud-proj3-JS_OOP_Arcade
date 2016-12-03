@@ -1,3 +1,7 @@
+// TODO: Create character superclass called Entity with method: render
+//ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+//inherit the Enemy and the Player as subclasses
+
 // Enemies our player must avoid
 var Enemy = function(howfast, rownum) {
     this.x = (4 * 101);
@@ -116,8 +120,8 @@ var Player = function() {
     this.x = 202;
     this.y = 390;
 
-    this.stepX = 100; //stepsize along X
-    this.stepY = 80; //stepsize along Y
+    this.stepX = 101; //stepsize along X
+    this.stepY = 83; //stepsize along Y
 
     //current sprite
     this.sprite = 'images/char-boy.png';
@@ -126,7 +130,7 @@ var Player = function() {
 
 //Used for debugging current position of the player
 Player.prototype.displayPos = function() {
-    console.log("player x: " + player.x + " player y: " + player.y);
+    console.log("player x: " + this.x + " player y: " + this.y);
 };
 
 //Function that returns a boolean value to determine if the player can move.
@@ -139,28 +143,28 @@ Player.prototype.canMove = function(direction) {
     //the numbers are the coordinates of the extreme most bounds
     switch (direction) {
         case 'left':
-            if (leftStep < 2) {
+            if (leftStep < 0) {
                 return false;
             } else {
                 return true;
             }
-              break;
+            break;
 
         case 'up':
-            if (upStep < -10) {
+            if (upStep < -25) {
                 return false;
             } else {
                 return true;
             }
-                        break;
+            break;
 
         case 'right':
-            if (rightStep > 402) {
+            if (rightStep > 404) {
                 return false;
             } else {
                 return true;
             }
-                break;
+            break;
 
         case 'down':
             if (downStep > 390) {
@@ -168,7 +172,7 @@ Player.prototype.canMove = function(direction) {
             } else {
                 return true;
             }
-          break;
+            break;
     }
 };
 
@@ -179,7 +183,6 @@ Player.prototype.move = function(direction) {
         case 'left':
             this.x = this.x - this.stepX;
             break;
-
         case 'up':
             this.y = this.y - this.stepY;
             break;
@@ -228,7 +231,7 @@ Player.prototype.waterContact = function() {
     //loops through the water tiles array
     //checking if the position of the player is on the water tile
     for (var i = 0; i < waterTiles.length; i++) {
-        if (this.x == waterTiles[i] && this.y == -10) {
+        if (this.y <= -10) {
             console.log("Stepped on water");
             endGame();
             restartMSG("Congratulations! You win!", "Start a new game?");
