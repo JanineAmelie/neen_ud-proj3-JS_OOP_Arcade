@@ -11,7 +11,7 @@ var Enemy = function(howfast, rownum) {
             break;
         case 3:
             this.y = 220;
-            break
+            break;
     }
     this.sprite = 'images/enemy-bug.png'; //spriteloader helper
     this.speed = howfast;
@@ -26,12 +26,12 @@ Enemy.prototype.update = function(dt) {
     this.x = (this.x + stepSize) % 505;
 
     //the following ends the game
-    if (this.collision() == true) {
+    if (this.collision() === true) {
         endGame(); //defined in engine.js
         player.resetPos();
         //console.log("collision")//debug for collision detection
         //restartMSG defined in engine.js is a function that creates UI
-        restartMSG("Oop! Enemy collision! Game Over", "Start a new game?")
+        restartMSG("Oop! Enemy collision! Game Over", "Start a new game?");
     }
 };
 
@@ -52,7 +52,7 @@ Enemy.prototype.collision = function() {
 //https://www.dropbox.com/s/vllmjpfqud0opko/3_explanationforSprite-collision.jpg?raw=1
 
         var imageHeight = 171;
-        var imageWidth = 101
+        var imageWidth = 101;
 
         //enemy actual width = 101px same as imagewidth
         var enemyHeight = 65;
@@ -140,30 +140,35 @@ Player.prototype.canMove = function(direction) {
     switch (direction) {
         case 'left':
             if (leftStep < 2) {
-                return false
+                return false;
             } else {
-                return true
+                return true;
             }
+              break;
 
         case 'up':
             if (upStep < -10) {
-                return false
+                return false;
             } else {
-                return true
+                return true;
             }
+                        break;
 
         case 'right':
             if (rightStep > 402) {
-                return false
+                return false;
             } else {
-                return true
+                return true;
             }
+                break;
+
         case 'down':
             if (downStep > 390) {
-                return false
+                return false;
             } else {
-                return true
+                return true;
             }
+          break;
     }
 };
 
@@ -173,18 +178,19 @@ Player.prototype.move = function(direction) {
     switch (direction) {
         case 'left':
             this.x = this.x - this.stepX;
-            break
+            break;
+
         case 'up':
             this.y = this.y - this.stepY;
-            break
+            break;
         case 'right':
             this.x = this.x + this.stepX;
-            break
+            break;
         case 'down':
             this.y = this.y + this.stepY;
-            break
+            break;
     }
-}
+};
 
 //called by the handleInputfunction
 Player.prototype.update = function(direction) {
@@ -213,7 +219,7 @@ Player.prototype.handleInput = function(keyinput) {
 Player.prototype.resetPos = function() {
     this.x = 202;
     this.y = 390;
-}
+};
 
 //function to determine if the player has hit water
 Player.prototype.waterContact = function() {
@@ -225,12 +231,12 @@ Player.prototype.waterContact = function() {
         if (this.x == waterTiles[i] && this.y == -10) {
             console.log("Stepped on water");
             endGame();
-            restartMSG("Congratulations! You win!", "Start a new game?")
+            restartMSG("Congratulations! You win!", "Start a new game?");
         } else {
             /* */
         }
-    };
-}
+    }
+};
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
@@ -239,11 +245,11 @@ var allEnemies = [];
 var player = new Player();
 
 //adding new enemy types to the allEnemies array
-allEnemies.push(new Enemy(200, 1), new Enemy(100, 2), new Enemy(150, 3))
+allEnemies.push(new Enemy(200, 1), new Enemy(100, 2), new Enemy(150, 3));
 
 // This listens for key presses and sends the keys to your Player.handleInput() method.
 document.addEventListener('keyup', function(e) {
-    if (timerStarted == true) {
+    if (timerStarted === true) {
         var allowedKeys = {
             37: 'left',
             38: 'up',
