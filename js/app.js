@@ -1,3 +1,7 @@
+// TODO: Create superclass called 'Entity', that has the method:
+// Render() {ctx.drawImage(Resources.get(this.sprite), this.x, this.y)}
+// Player and Enemy are subclasses of this.
+
 // Enemies our player must avoid
 var Enemy = function(howfast, rownum) {
     this.x = (4 * 101);
@@ -116,8 +120,8 @@ var Player = function() {
     this.x = 202;
     this.y = 390;
 
-    this.stepX = 100; //stepsize along X
-    this.stepY = 80; //stepsize along Y
+    this.stepX = 101; //stepsize along X
+    this.stepY = 83; //stepsize along Y
 
     //current sprite
     this.sprite = 'images/char-boy.png';
@@ -126,7 +130,7 @@ var Player = function() {
 
 //Used for debugging current position of the player
 Player.prototype.displayPos = function() {
-    console.log("player x: " + player.x + " player y: " + player.y);
+    console.log("player x: " + this.x + " player y: " + this.y);
 };
 
 //Function that returns a boolean value to determine if the player can move.
