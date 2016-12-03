@@ -2,7 +2,7 @@
 Classic Arcade Game Clone
 ---
 
-### Table of Contents
+###Table of Contents
 1. [Project Overview](#project-overview)
 2. [Game Objectives](#game-objectives)
 2. [Project Information](#project-information)
@@ -12,7 +12,7 @@ Classic Arcade Game Clone
 
 ---
 
-### Project-Overview
+###Project-Overview
 
 I was provided visual assets and a javaScript game loop engine. My task was to implement game functionality, add enemy entities and player charatcers to emulate an arcade frogger-like game.  I utilized Object Oriented Programming to structure my code and prototypal inheritance to create features.
 
@@ -26,7 +26,7 @@ I was provided visual assets and a javaScript game loop engine. My task was to i
 ---
 
 
-### Project-Information
+###Project-Information
 
 - **Features:**
   - HTML5 Canvas
@@ -49,7 +49,7 @@ Implementing the collision detection for the sprites required a little bit more 
 
 ![white-space](https://www.dropbox.com/s/ycxm4kq1qds3vls/3_collision.jpg?raw=1)
 
-#### **Calculating the exact actual bounding box of the sprite with reference to its position on the HTML5 Canvas:**
+####**Calculating the exact actual bounding box of the sprite with reference to its position on the HTML5 Canvas:**
 
 ![enter image description here](https://www.dropbox.com/s/vllmjpfqud0opko/3_explanationforSprite-collision.jpg?raw=1)
 
@@ -61,7 +61,7 @@ Implementing the collision detection for the sprites required a little bit more 
 ```
 
 
-#### ***So here is the workaround I created for the Enemy.prototype.collision: ***
+####***So here is the workaround I created for the Enemy.prototype.collision: ***
 ![Collison](https://www.dropbox.com/s/a3vziucds4wc9n6/4_perfect-collision-detection.jpg?raw=1)
 
 
