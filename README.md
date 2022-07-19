@@ -87,5 +87,5 @@ if (!(xCond1 || xCond2 || yCond1 || yCond2) ) {
 4. Double click the index.html file and open with your favorite browser. (Preferably Chrome :stuck_out_tongue: )
 
 #### **Testing Live:**
-1. View the site live here: https://ninineen.github.io/neen_ud-proj3-JS_OOP_Arcade/
+1. View the site live here: https://janineamelie.github.io/neen_ud-proj3-JS_OOP_Arcade/
 
